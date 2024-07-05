@@ -3,13 +3,14 @@ on:
   push:
     branches:
       - main
-      - dev
+      - dev/*
 
     paths:
       - "aws-network/**"
       - ".github/workflows/example-vpc.yml"
 
 env:
+  work_dir: "${{ github.workspace }}/examples/vpc"
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   TF_VAR_aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -39,13 +40,13 @@ jobs:
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
 
       - name: Initialize Terraform
-        run: terraform init
+        run: cd "${{ env.work_dir }}" && terraform init
 
       - name: Validate Terraform
-        run: terraform validate
+        run: cd "${{ env.work_dir }}" && terraform validate
 
       - name: Plan Terraform deployment
-        run: terraform plan
+        run: cd "${{ env.work_dir }}" && terraform plan
 
       - name: Apply Terraform deployment
-        run: terraform apply -auto-approve
+        run: cd "${{ env.work_dir }}" && terraform apply -auto-approve
