@@ -40,13 +40,13 @@ jobs:
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
 
       - name: Initialize Terraform
-        run: cd "${{ work_dir }}" && terraform init
+        run: cd "${{ env.work_dir }}" && terraform init
 
       - name: Validate Terraform
-        run: cd "${{ work_dir }}" && terraform validate
+        run: cd "${{ env.work_dir }}" && terraform validate
 
       - name: Plan Terraform deployment
-        run: cd "${{ work_dir }}" && terraform plan
+        run: cd "${{ env.work_dir }}" && terraform plan
 
       - name: Apply Terraform deployment
-        run: cd "${{ work_dir }}" && terraform apply -auto-approve
+        run: cd "${{ env.work_dir }}" && terraform apply -auto-approve
